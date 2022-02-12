@@ -1,3 +1,18 @@
+function calc(){
+ 
+    var	m1 = document.getElementById("div1").value;
+    var m2 = document.getElementById("mul2").value;
+    var m3 = document.getElementById("mul1").value;
+    var m5 = (m2*m3/m1);
+     
+    document.getElementById("resultado").innerHTML = 'es igual a '+ m5;
+}
+     
+
+
+
+
+
 let dataCards = [
     {urlImage:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Former_Visa_%28company%29_logo.svg/288px-Former_Visa_%28company%29_logo.svg.png', title:"VISA"},
     {urlImage:'https://dbdzm869oupei.cloudfront.net/img/sticker/preview/6574.png', title:"MasterCard"},
