@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}  
+
+:root {
+    --color-dark: #131c21;
+    --color-light: #fafbfd;
+
+}
+
+
+body {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
+}
+.creditCardImg {
+    width: 65px;
+    height: 45px;
+}
+
+li {
+    list-style: none !important; 
+}
+
+footer {
+    font-size: 12px;
+    height: 20px;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    font-family: monospace;
+    font-weight: 700;
+}
