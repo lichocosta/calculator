@@ -29,9 +29,9 @@ input[type=number] {
     height: 45px;
 }
 
-li {
+/* li {
     list-style: none !important; 
-}
+} */
 
 footer {
     font-size: 12px;
@@ -40,4 +40,34 @@ footer {
     color: var(--color-light);
     font-family: monospace;
     font-weight: 700;
+}
+
+.form-control,
+.input-group {
+  width: 30% !important;
+}
+
+.InputArticleContainer {
+  width: 60%;
+}
+
+.creditCard {
+  width: 130px;
+  height: 170px;
+}
+.creditCard:hover {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+  cursor: pointer;
+}
+
+.creditCardImg {
+  width: 65px;
+  height: 45px;
+}
+.creditCardImg > img {
+  object-fit: contain;
+}
+
+.credit-card-radio:checked + .credit-card-label > .creditCard {
+  border: 1px solid #198754 !important;
 }

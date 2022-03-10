@@ -1,76 +1,157 @@
-function calc(idInput){
- 
-    var	m1 = document.getElementById("InputArticulo").value;
+let totalQuotaNumber = 12;
 
-    var m2 = document.getElementById(idInput).value;
+function calc() {
+    const articlePrice = document.getElementById("InputArticle").value;
 
-    var m5 = parseInt(m2) / 100 * parseInt(m1);
+    for (let quotaNumber = 1; quotaNumber <= quotas.length; quotaNumber++) {
+        calcQuota(quotaNumber, articlePrice);
+    }
 
-    //El 5% de 2 = 2*(5/100) = 2*0.05 = 0.1
+    // let inputQuota = document.getElementById('inputQuota${quotaNumber}');
+    // let quotaPrice = document.getElementById('quotaPrice${quotaNumber}');
 
-    var suma = parseInt(m5) + parseInt(m1);
-     
-    document.getElementById("resultado1").innerHTML = m1;
-    document.getElementById("resultado2").innerHTML = Math.round(suma / 2);
-    document.getElementById("resultado3").innerHTML = Math.round(suma / 3);
-    document.getElementById("resultado4").innerHTML = Math.round(suma / 4);
-    document.getElementById("resultado5").innerHTML = Math.round(suma / 5);
-    document.getElementById("resultado6").innerHTML = Math.round(suma / 6);
-    document.getElementById("resultado7").innerHTML = Math.round(suma / 7);
-    document.getElementById("resultado8").innerHTML = Math.round(suma / 8);
-    document.getElementById("resultado9").innerHTML = Math.round(suma / 9);
-    document.getElementById("resultado10").innerHTML = Math.round(suma / 10);
-    document.getElementById("resultado11").innerHTML = Math.round(suma / 11);
-    document.getElementById("resultado12").innerHTML = Math.round(suma / 12);
+    // if (inputQuota === '') {
+    //     quotaPrice.innerHTML = "0";
+    // }
+
 }
-     
+
+function calcQuota(quotaNumber, articlePrice) {
+
+    const quotaInterestPercentage = document.getElementById("inputQuota" + quotaNumber).value;
+
+    const productPriceInterestPercentage = parseFloat(quotaInterestPercentage) / 100 * parseFloat(articlePrice);
+
+    const productPricePlusInterest = productPriceInterestPercentage + parseFloat(articlePrice);
+
+    document.getElementById("quotaPrice" + quotaNumber).innerHTML = Math.round(productPricePlusInterest / quotaNumber);
+}
 
 
 
 
+// ---------------------- CARD COMPONENT ----------------------
 
 let dataCards = [
-    {urlImage:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Former_Visa_%28company%29_logo.svg/288px-Former_Visa_%28company%29_logo.svg.png', title:"VISA"},
-    {urlImage:'https://dbdzm869oupei.cloudfront.net/img/sticker/preview/6574.png', title:"MasterCard"},
-    {urlImage:'http://1.bp.blogspot.com/-z_wE47R_c24/U262ZeVS5wI/AAAAAAAAAV8/o35d_NtYpmE/s1600/cabal.jpg', title:"CABAL"},
-    {urlImage:'https://i0.wp.com/opticagalileo.com.ar/wp-content/uploads/2017/07/naranja.png?w=1080&ssl=1', title:"Naranja"},
+    { urlImage: 'img/tarjeta-visa.jpg', title: "VISA" },
+    { urlImage: 'img/Mastercard-logo.svg.png', title: "Master Card" },
+    { urlImage: 'img/cabal-logo.png', title: "CABAL" },
+    { urlImage: 'img/ahora-12-logo.png', title: "Ahora12" },
+    { urlImage: 'img/ahora-18-logo.png', title: "Ahora18" },
+    { urlImage: 'img/cabal24.png', title: "CABAL24" },
+    { urlImage: 'img/Maestro.png', title: "Maestro" },
+    { urlImage: 'img/Naranja.png', title: "Naranja" },
+    { urlImage: 'img/american_express.png', title: "American Express" },
+    { urlImage: 'img/Nativa.jpg', title: "Nativa" },
+    { urlImage: 'img/credito-argentino.jpg', title: "Crédito Argentino" },
+    { urlImage: 'img/logo-consumax.png', title: "Consumax" },
+    { urlImage: 'img/tarjeta-visa.jpg', title: "VISA", subtitle:"AGRO" },
 ];
-
 
 function cardFunction(cards) {
     let arrayCards = [];
-    
-    let ulContainer = document.getElementById('containerCards');
-    
+
+    let cardContainer = document.getElementById('containerCards');
+
     cards.map(ele => {
         arrayCards.push(
-            `<li class="col">
-                <a class="text-decoration-none link-dark card align-items-center text-center pt-3 border border-success" style="cursor: pointer;">
-                    <div class="creditCardImg">
-                        <img src="${ele.urlImage}" class="card-img-top w-100 h-100 img-fluid" alt="...">
+            `<div class="col">
+                <input id="${ele.title}" class="d-none credit-card-radio" type="radio" name="creditCard" value="" ${ele.title == "VISA" ? "checked" : ''} />
+                <label for="${ele.title}" class="col d-flex justify-content-center text-center pe-auto credit-card-label">
+                    <div class="creditCard d-flex flex-column text-decoration-none link-dark card align-items-center justify-content-between py-3 border">
+                        <div class="creditCardImg mx-2 border rounded">
+                            <img src="${ele.urlImage}" class="card-img-top w-100 h-100 img-fluid" alt="...">
+                        </div>
+                        <div class="pb-0 px-0">
+                        <h5 class="card-title text-break mb-0">${ele.title}</h5>
+                        <!--<small>${ele.subtitle}</small>-->
+                        </div>
+                        <div class="pb-0 px-0">
+                            <button onclick="calc()" title="Calcular cuotas con ésta tarjeta" class="btn btn-outline-primary">Calcular!</button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title text-break">${ele.title}</h5>
-                        <input id="InputTarjeta${ele.title}" class="w-75 mx-auto form-control" type="number" placeholder="%" title="Introduzca el recargo de ésta tarjeta">
-                        <button onclick="calc('InputTarjeta${ele.title}')">CALCULAR CUOTA</button>
-                    </div>
-                </a>
-            </li>`
-                    );
-                })
+                </label>
+            </div>`
+        );
+    })
 
-    ulContainer.innerHTML = "";           
-    
+    cardContainer.innerHTML = "";
+
     arrayCards.map(ele => {
-        ulContainer.innerHTML += ele;
+        cardContainer.innerHTML += ele;
     });
-    
+
 };
 
 function addCard() {
-    const card = {urlImage:'https://i0.wp.com/opticagalileo.com.ar/wp-content/uploads/2017/07/naranja.png?w=1080&ssl=1', title:"Naranja"};
+    const card = { urlImage: 'img/credit-card.svg', title: "Nueva tarjeta" };
     dataCards.push(card);
     cardFunction(dataCards);
 };
 
 cardFunction(dataCards);
+
+
+
+
+// ---------------------- QUOTAS COMPONENT ----------------------
+
+
+
+const quotasContainer = document.getElementById('quotasContainer');
+
+const quotas = [];
+
+for (let quotaNumber = 1; quotaNumber <= totalQuotaNumber; quotaNumber++) {
+    quotas.push({ number: quotaNumber, interestPercentage: "" });
+
+}
+
+
+function createQuotaElement(quotaNumber) {
+    const newQuotaDiv = document.createElement('div');
+    newQuotaDiv.className = 'list-group-item list-group-item-action py-3 lh-tight d-flex align-items-center justify-content-between';
+    newQuotaDiv.innerHTML = `
+        <div class="d-flex flex-row align-items-center">
+            <div class="input-group">
+                <input id="inputQuota${quotaNumber}" class="form-control" type="number" name="" title="Introduzca el valor del recargo"/>
+                <span class="input-group-text">%</span>
+            </div>
+            <strong class="ms-2 ms-md-3">${quotaNumber} CUOTA${quotaNumber == "1" ? "" : "S"} DE:</strong>
+        </div>
+        <div>
+            <h5 class="fw-bold mb-0">$<span id="quotaPrice${quotaNumber}"></span></h5>
+        </div>
+    `;
+    return newQuotaDiv;
+}
+
+function renderQuotas(quotas) {
+
+    quotas.forEach(quota => {
+        const quotaElement = createQuotaElement(quota.number);
+        quotasContainer.appendChild(quotaElement);
+
+        const inputQuota = document.getElementById(`inputQuota${quota.number}`);
+
+        inputQuota.addEventListener('input', (event) => {
+            quota.interestPercentage = event.target.value;
+        })
+
+    })
+}
+renderQuotas(quotas);
+
+
+function addQuotas() {
+    const newQuotas = [];
+
+    for (let quotaNumber = quotas.length + 1; quotaNumber <= quotas.length + 12; quotaNumber++) {
+        newQuotas.push({ number: quotaNumber, interestPercentage: "" })
+    }
+
+    renderQuotas(newQuotas);
+
+    quotas.push(...newQuotas);
+};
+
