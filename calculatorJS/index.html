@@ -22,18 +22,50 @@
   </head>
 
   <body>
-    <header class="d-flex justify-content-center justify-content-sm-between align-items-center flex-column flex-sm-row">
-      <h3 class="text-start my-3 ms-sm-3">CALCULADOR DE CUOTAS</h3>
-      <button type="button" class="btn btn-primary me-sm-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        ¿Cómo funciona?
-      </button>
+    <header class="d-flex flex-row justify-content-between justify-content-sm-between align-items-center">
+
+      <nav class="navbar navbar-expand-md navbar-light col-12">
+        <div class="container-fluid d-flex justify-content-between">
+
+          <div class="col-9">
+            <h3 class="text-start my-3">
+              <span class="typed"></span>
+            </h3>
+          </div>
+
+          <button class="navbar-toggler my-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <button type="button" class="btn btn-primary d-flex mx-auto my-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  ¿Cómo funciona?
+                </button>
+              </li>
+              <li class="nav-item d-md-none">
+                <button class="btn btn-primary d-flex mx-auto my-2" onclick="addCard()">
+                  Crear nueva tarjeta
+                </button>
+              </li>
+              <li class="nav-item d-md-none">      
+                <button class="btn btn-primary d-flex mx-auto my-2" onclick="addQuotas()">
+                  Agregar 12 cuotas más
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
     </header>
 
     <hr class="mt-0">
 
     <section class="d-flex align-items-center justify-content-center flex-row">
 
-      <div class="input-group InputArticleContainer col-12 my-2 px-2">
+      <div class="input-group InputArticleContainer my-2">
         <span class="input-group-text">$</span>
         <input id="InputArticle" class="form-control" type="number" name="" id=""
           title="Introduzca el valor del articulo" placeholder="Ingresá el valor del artículo">
@@ -54,19 +86,26 @@
                   Comenzá introduciendo el valor del artículo en el campo principal.
                 </li>
                 <li class="fs-5 fw-semibold">
-                  Luego, seleccioná la tarjera deseada e ingresá el valor de recargo en cada cuota.
+                  Luego, seleccioná la tarjeta deseada e ingresá el valor de recargo en cada cuota.
                 </li>
                 <li class="fs-5 fw-semibold">
-                  Por último, pulsá el botón Calcular! y observá en la barra lateral que valor posee cada cuota deseada.
+                  Por último, pulsá el botón Calcular! de la propia tarjeta y observá en la barra lateral que valor posee cada cuota deseada.
                 </li>
-
-                <br>
+              </ol>
+              
+              <div>
+                <p class="fs-5 fw-semibold my-3">
+                  ¿Que cuenta matemática se realiza para llegar al resultado?<br>
+                  <em>Precio del artículo <span class="fw-bold">+</span> recargo de la tarjeta de crédito <span class="fw-bold">÷</span> cantidad de cuotas.</em>
+                </p>
 
                 <p class="fs-5 fw-semibold">
-                  ¿Que cuenta matemática se realiza para llegar al resultado?<br>
-                  <em>Precio del artículo + recargo de la tarjeta de crédito ÷ cantidad de cuotas.</em>
+                  Se trata de una app que puede llevarse a cabo en una simple hoja de cálculo sin inconvenientes, por lo tanto queda a su dispoción una versión para descargar:
+                  <em>
+                    <a href="">Versión Excel</a>
+                  </em>
                 </p>
-              </ol>
+              </div>
             </div>
           </div>
         </div>
@@ -76,31 +115,30 @@
 
     <hr>
 
-    <main id="app" class="d-flex flex-column flex-md-row">
+    <main id="app" class="row mx-0">
 
-      <section class="col-12 col-md-7 col-lg-8 px-3">
-  
+      <section class="col-12 col-md-7 col-lg-8">
         <div id="containerCards" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-xl-5 row-cols-xxl-6 g-4">
 
         </div>
-
-        <button class="btn btn-primary d-flex mx-auto my-4" onclick="addCard()">Agregar tarjeta</button>
-
       </section>
 
-
-      <section class="col-12 col-md-5 col-lg-4">
+      <section class="col-12 col-md-5 col-lg-4 px-0">
         <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
-
-          <div id="quotasContainer" class="list-group list-group-flush border-bottom scrollarea">
+          <div id="quotasContainer" class="list-group list-group-flush border-bottom">
 
           </div>
-
-          <button class="btn btn-primary d-flex mx-auto my-4" onclick="addQuotas()">Agregar 12 Cuotas</button>
-
         </div>
       </section>
 
+      <section class="col-12 row align-items-center d-none d-md-flex">
+        <div class="col-12 col-md-7 col-lg-8">
+          <button class="btn btn-primary d-flex mx-auto my-4" onclick="addCard()">Crear nueva tarjeta</button>
+        </div>
+        <div class="col-12 col-md-5 col-lg-4">
+          <button class="btn btn-primary d-flex mx-auto my-4" onclick="addQuotas()">Agregar 12 cuotas más</button>
+        </div>
+      </section>
 
     </main>
 
@@ -108,17 +146,12 @@
       href="https://lisandrocostamartorel.com.ar/">Lisandro Costa Martorel</a> &copy;
     </footer>
 
-
-
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-
-    <script src="index.js"></script>
-
-    <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"></script>
-
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+    <script src="index.js"></script>
   </body>
 
 </html>

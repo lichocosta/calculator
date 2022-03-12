@@ -10,7 +10,6 @@
 
 }
 
-
 body {
     font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
 }
@@ -24,32 +23,58 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-.creditCardImg {
-    width: 65px;
-    height: 45px;
-}
 
-/* li {
-    list-style: none !important; 
-} */
 
-footer {
+
+
+
+
+
+
+  footer {
     font-size: 12px;
     height: 20px;
     background-color: var(--color-dark);
     color: var(--color-light);
     font-family: monospace;
     font-weight: 700;
-}
-
+  }
+  
 .form-control,
 .input-group {
   width: 30% !important;
 }
 
 .InputArticleContainer {
-  width: 60%;
+  width: 270px !important;
 }
+
+
+
+
+.scrollarea {
+  overflow-y: scroll;
+  height: 850px;
+}
+.scrollarea::-webkit-scrollbar {
+  width: 6px!important;
+  height: 6px!important;
+}
+
+.scrollarea::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.scrollarea::-webkit-scrollbar-thumb {
+  background-color: #0d6dfd93;
+  border-radius: 10px;
+}
+
+
+
+
+
+
 
 .creditCard {
   width: 130px;

@@ -1,51 +1,68 @@
 let totalQuotaNumber = 12;
 
 function calc() {
-    const articlePrice = document.getElementById("InputArticle").value;
+    const articlePrice = document.getElementById("InputArticle");
+    const articlePriceValue = articlePrice.value;
 
     for (let quotaNumber = 1; quotaNumber <= quotas.length; quotaNumber++) {
-        calcQuota(quotaNumber, articlePrice);
+        calcQuota(quotaNumber, articlePriceValue);
     }
 
-    // let inputQuota = document.getElementById('inputQuota${quotaNumber}');
-    // let quotaPrice = document.getElementById('quotaPrice${quotaNumber}');
-
-    // if (inputQuota === '') {
-    //     quotaPrice.innerHTML = "0";
-    // }
-
+    if (articlePriceValue === "") {
+        articlePrice.setAttribute("placeholder", "Agregá un monto!!");
+        articlePrice.classList.add('border-danger');
+    } else {
+        articlePrice.setAttribute("placeholder", "Ingresá el valor del artículo");
+        articlePrice.classList.remove('border-danger');
+    }
+    
 }
 
-function calcQuota(quotaNumber, articlePrice) {
+function calcQuota(quotaNumber, articlePriceValue) {
+    let inputQuota = document.getElementById(`inputQuota${quotaNumber}`);
+    let quotaPrice = document.getElementById(`quotaPrice${quotaNumber}`);
+    
+    const quotaInterestPercentage = inputQuota.value;
+    
+    if (quotaInterestPercentage === '') {
+        quotaPrice.innerHTML = "0";
+        inputQuota.classList.add('border-danger');
+    } else if (articlePriceValue === '') {
+        quotaPrice.innerHTML = "0";
+    } else {
+        inputQuota.classList.remove('border-danger');
 
-    const quotaInterestPercentage = document.getElementById("inputQuota" + quotaNumber).value;
 
-    const productPriceInterestPercentage = parseFloat(quotaInterestPercentage) / 100 * parseFloat(articlePrice);
-
-    const productPricePlusInterest = productPriceInterestPercentage + parseFloat(articlePrice);
-
-    document.getElementById("quotaPrice" + quotaNumber).innerHTML = Math.round(productPricePlusInterest / quotaNumber);
+        const productPriceInterestPercentage = parseFloat(quotaInterestPercentage) / 100 * parseFloat(articlePriceValue);
+        
+        const productPricePlusInterest = productPriceInterestPercentage + parseFloat(articlePriceValue);
+        
+        quotaPrice.innerHTML = Math.round(productPricePlusInterest / quotaNumber);
+    }
+    
 }
-
-
 
 
 // ---------------------- CARD COMPONENT ----------------------
-
 let dataCards = [
     { urlImage: 'img/tarjeta-visa.jpg', title: "VISA" },
-    { urlImage: 'img/Mastercard-logo.svg.png', title: "Master Card" },
-    { urlImage: 'img/cabal-logo.png', title: "CABAL" },
+    { urlImage: 'img/Mastercard-logo.svg.png', title: "MasterCard" },
     { urlImage: 'img/ahora-12-logo.png', title: "Ahora12" },
     { urlImage: 'img/ahora-18-logo.png', title: "Ahora18" },
+    { urlImage: 'img/cabal-logo.png', title: "CABAL" },
     { urlImage: 'img/cabal24.png', title: "CABAL24" },
     { urlImage: 'img/Maestro.png', title: "Maestro" },
-    { urlImage: 'img/Naranja.png', title: "Naranja" },
+    { urlImage: 'img/NARANJANUEVA.png', title: "Naranja" },
+    { urlImage: 'img/Naranja.png', title: "Naranja VISA" },
     { urlImage: 'img/american_express.png', title: "American Express" },
-    { urlImage: 'img/Nativa.jpg', title: "Nativa" },
+    { urlImage: 'img/Nativa.jpg', title: "Nativa VISA" },
+    { urlImage: 'img/NATIVAMASTER.jpg', title: "Nativa MasterCard"},
     { urlImage: 'img/credito-argentino.jpg', title: "Crédito Argentino" },
     { urlImage: 'img/logo-consumax.png', title: "Consumax" },
-    { urlImage: 'img/tarjeta-visa.jpg', title: "VISA", subtitle:"AGRO" },
+    { urlImage: 'img/BERSA.jpg', title: "VISA BERSA"},
+    { urlImage: 'img/VISAELECTRON.png', title: "Visa Electron"},
+    { urlImage: 'img/SIDECREER.png', title: "Sidecreer"},
+    { urlImage: 'img/SIDECREERCABAL.jpg', title: "Sidecreer CABAL"},
 ];
 
 function cardFunction(cards) {
@@ -64,7 +81,6 @@ function cardFunction(cards) {
                         </div>
                         <div class="pb-0 px-0">
                         <h5 class="card-title text-break mb-0">${ele.title}</h5>
-                        <!--<small>${ele.subtitle}</small>-->
                         </div>
                         <div class="pb-0 px-0">
                             <button onclick="calc()" title="Calcular cuotas con ésta tarjeta" class="btn btn-outline-primary">Calcular!</button>
@@ -95,9 +111,6 @@ cardFunction(dataCards);
 
 
 // ---------------------- QUOTAS COMPONENT ----------------------
-
-
-
 const quotasContainer = document.getElementById('quotasContainer');
 
 const quotas = [];
@@ -153,5 +166,29 @@ function addQuotas() {
     renderQuotas(newQuotas);
 
     quotas.push(...newQuotas);
+
+    quotasContainer.classList.add('scrollarea');
 };
 
+
+// ---------------------- TYPED CONFIG ----------------------
+const typed = new Typed('.typed', {
+    strings: [
+        'CALCULADOR DE CUOTAS',
+        'FÁCIL, RÁPIDO Y SIMPLE',
+        'JUBILÁ TU CALCULADORA',
+        'NO LE GASTES LAS PILAS ;)',
+    ],
+    stringsElement: '#cadenas-texto',
+    typeSpeed: 50,
+    startDelay: 300,
+    backSpeed: 50,
+    smartBackspace: true,
+    shuffle: false, 
+    backDelay: 1600, 
+    loop: true, 
+    loopCount: false,
+    showCursor: true,
+    cursorChar: '.',
+    contentType: 'html',
+});
