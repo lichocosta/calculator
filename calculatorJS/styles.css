@@ -31,41 +31,49 @@ input[type=number] {
 
 
 
-  footer {
-    font-size: 12px;
-    height: 20px;
-    background-color: var(--color-dark);
-    color: var(--color-light);
-    font-family: monospace;
-    font-weight: 700;
-  }
-  
-.form-control,
-.input-group {
-  width: 30% !important;
+footer {
+  font-size: 12px;
+  height: 20px;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  font-family: monospace;
+  font-weight: 700;
 }
 
-.InputArticleContainer {
+.interestInput {
+  min-width: 95px !important;
+  padding: 0 70px;
+  flex-grow: 1;
+}
+
+/* .InputArticleContainer {
   width: 270px !important;
+} */
+
+
+
+.list-group-item {
+  flex-wrap: wrap;
 }
 
-
-
+#containerCards {
+  overflow-x: scroll;
+}
 
 .scrollarea {
   overflow-y: scroll;
   height: 850px;
 }
-.scrollarea::-webkit-scrollbar {
+.scrollarea, #containerCards::-webkit-scrollbar {
   width: 6px!important;
   height: 6px!important;
 }
 
-.scrollarea::-webkit-scrollbar-track {
+.scrollarea, #containerCards::-webkit-scrollbar-track {
   background-color: transparent;
 }
 
-.scrollarea::-webkit-scrollbar-thumb {
+.scrollarea, #containerCards::-webkit-scrollbar-thumb {
   background-color: #0d6dfd93;
   border-radius: 10px;
 }
@@ -95,4 +103,37 @@ input[type=number] {
 
 .credit-card-radio:checked + .credit-card-label > .creditCard {
   border: 1px solid #198754 !important;
+}
+
+
+@media (min-width: 300px) {
+  .list-group-item {
+    flex-wrap: nowrap;
+  }
+  .interestInput {
+    width: 35% !important;
+    max-width: 95px !important;
+    flex-grow: 0;
+    padding: 0;
+  }
+  
+}
+
+
+@media (min-width: 576px) {
+
+}
+@media (min-width: 768px) {    
+  #containerCards {
+    overflow-x: hidden;
+  }
+}
+@media (min-width: 992px) {
+
+}
+@media (min-width: 1200px) {
+
+}
+@media (min-width: 1400px) {
+
 }

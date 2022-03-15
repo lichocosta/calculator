@@ -1,10 +1,8 @@
-let totalQuotaNumber = 12;
-
 function calc() {
     const articlePrice = document.getElementById("InputArticle");
     const articlePriceValue = articlePrice.value;
 
-    for (let quotaNumber = 1; quotaNumber <= quotas.length; quotaNumber++) {
+    for (let quotaNumber = 1; quotaNumber <= 48; quotaNumber++) {
         calcQuota(quotaNumber, articlePriceValue);
     }
 
@@ -44,26 +42,91 @@ function calcQuota(quotaNumber, articlePriceValue) {
 
 
 // ---------------------- CARD COMPONENT ----------------------
-let dataCards = [
-    { urlImage: 'img/tarjeta-visa.jpg', title: "VISA" },
-    { urlImage: 'img/Mastercard-logo.svg.png', title: "MasterCard" },
-    { urlImage: 'img/ahora-12-logo.png', title: "Ahora12" },
-    { urlImage: 'img/ahora-18-logo.png', title: "Ahora18" },
-    { urlImage: 'img/cabal-logo.png', title: "CABAL" },
-    { urlImage: 'img/cabal24.png', title: "CABAL24" },
-    { urlImage: 'img/Maestro.png', title: "Maestro" },
-    { urlImage: 'img/NARANJANUEVA.png', title: "Naranja" },
-    { urlImage: 'img/Naranja.png', title: "Naranja VISA" },
-    { urlImage: 'img/american_express.png', title: "American Express" },
-    { urlImage: 'img/Nativa.jpg', title: "Nativa VISA" },
-    { urlImage: 'img/NATIVAMASTER.jpg', title: "Nativa MasterCard"},
-    { urlImage: 'img/credito-argentino.jpg', title: "Crédito Argentino" },
-    { urlImage: 'img/logo-consumax.png', title: "Consumax" },
-    { urlImage: 'img/BERSA.jpg', title: "VISA BERSA"},
-    { urlImage: 'img/VISAELECTRON.png', title: "Visa Electron"},
-    { urlImage: 'img/SIDECREER.png', title: "Sidecreer"},
-    { urlImage: 'img/SIDECREERCABAL.jpg', title: "Sidecreer CABAL"},
-];
+
+
+
+const quotasContainer = document.getElementById('quotasContainer');
+
+
+function createQuotaElement(quotaNumber) {
+    const newQuotaDiv = document.createElement('div');
+    newQuotaDiv.className = 'list-group-item list-group-item-action py-3 d-flex align-items-center gap-2';
+    newQuotaDiv.innerHTML = `
+            <div class="interestInput input-group">
+                <input id="inputQuota${quotaNumber}" class="form-control" type="number" name="" title="Introduzca el valor del recargo"/>
+                <span class="input-group-text">%</span>
+            </div>
+            <strong class="flex-grow-1 ">${quotaNumber} CUOTA${quotaNumber == "1" ? "" : "S"} DE:</strong>
+            <h5 class="fw-bold mb-0">$<span id="quotaPrice${quotaNumber}"></span></h5>
+    `;
+    return newQuotaDiv;
+}
+
+for (let quotaNumber = 1; quotaNumber <= 48; quotaNumber++) {
+    const quotaElement = createQuotaElement(quotaNumber);
+    quotasContainer.appendChild(quotaElement);
+    const inputQuota = document.getElementById(`inputQuota${quotaNumber}`);
+    
+    inputQuota.addEventListener('input', (event) => {
+        const card = dataCards.find(card => card.title == selectedCard);
+        card.quotas[quotaNumber - 1].interestPercentage = event.target.value;
+        localStorage.setItem('dataCards', JSON.stringify(dataCards))
+    })
+}
+
+let selectedCard = "VISA";
+
+const cardContainer = document.getElementById('containerCards');
+
+cardContainer.addEventListener('change', changeSelectedCard);
+
+function changeSelectedCard(event) {
+    selectedCard = event.target.id;
+    fillInputQuotas();
+}
+
+function fillInputQuotas() {
+    const card = dataCards.find(card => card.title == selectedCard)
+
+    card.quotas.forEach(quota => {
+        const inputQuota = document.getElementById(`inputQuota${quota.number}`);
+        inputQuota.value = quota.interestPercentage
+    })
+}
+
+let dataCards = JSON.parse(localStorage.getItem('dataCards'));
+
+if (!dataCards) {
+    dataCards = [
+        { quotas: [], urlImage: 'img/tarjeta-visa.jpg', title: "VISA" },
+        { quotas: [], urlImage: 'img/Mastercard-logo.svg.png', title: "MasterCard" },
+        { quotas: [], urlImage: 'img/ahora-12-logo.png', title: "Ahora12" },
+        { quotas: [], urlImage: 'img/ahora-18-logo.png', title: "Ahora18" },
+        { quotas: [], urlImage: 'img/cabal-logo.png', title: "CABAL" },
+        { quotas: [], urlImage: 'img/cabal24.png', title: "CABAL24" },
+        { quotas: [], urlImage: 'img/Maestro.png', title: "Maestro" },
+        { quotas: [], urlImage: 'img/NARANJANUEVA.png', title: "Naranja" },
+        { quotas: [], urlImage: 'img/Naranja.png', title: "Naranja VISA" },
+        { quotas: [], urlImage: 'img/american_express.png', title: "American Express" },
+        { quotas: [], urlImage: 'img/Nativa.jpg', title: "Nativa VISA" },
+        { quotas: [], urlImage: 'img/NATIVAMASTER.jpg', title: "Nativa MasterCard"},
+        { quotas: [], urlImage: 'img/credito-argentino.jpg', title: "Crédito Argentino" },
+        { quotas: [], urlImage: 'img/logo-consumax.png', title: "Consumax" },
+        { quotas: [], urlImage: 'img/BERSA.jpg', title: "VISA BERSA"},
+        { quotas: [], urlImage: 'img/VISAELECTRON.png', title: "Visa Electron"},
+        { quotas: [], urlImage: 'img/SIDECREER.png', title: "Sidecreer"},
+        { quotas: [], urlImage: 'img/SIDECREERCABAL.jpg', title: "Sidecreer CABAL"},
+    ];
+
+    dataCards.forEach(card => {
+        for (let quotaNumber = 1; quotaNumber <= 48; quotaNumber++) {
+            card.quotas.push({ number: quotaNumber, interestPercentage: "" });
+        }   
+    });
+} else {
+    fillInputQuotas();
+}
+
 
 function cardFunction(cards) {
     let arrayCards = [];
@@ -111,54 +174,11 @@ cardFunction(dataCards);
 
 
 // ---------------------- QUOTAS COMPONENT ----------------------
-const quotasContainer = document.getElementById('quotasContainer');
 
-const quotas = [];
-
-for (let quotaNumber = 1; quotaNumber <= totalQuotaNumber; quotaNumber++) {
-    quotas.push({ number: quotaNumber, interestPercentage: "" });
-
-}
-
-
-function createQuotaElement(quotaNumber) {
-    const newQuotaDiv = document.createElement('div');
-    newQuotaDiv.className = 'list-group-item list-group-item-action py-3 lh-tight d-flex align-items-center justify-content-between';
-    newQuotaDiv.innerHTML = `
-        <div class="d-flex flex-row align-items-center">
-            <div class="input-group">
-                <input id="inputQuota${quotaNumber}" class="form-control" type="number" name="" title="Introduzca el valor del recargo"/>
-                <span class="input-group-text">%</span>
-            </div>
-            <strong class="ms-2 ms-md-3">${quotaNumber} CUOTA${quotaNumber == "1" ? "" : "S"} DE:</strong>
-        </div>
-        <div>
-            <h5 class="fw-bold mb-0">$<span id="quotaPrice${quotaNumber}"></span></h5>
-        </div>
-    `;
-    return newQuotaDiv;
-}
-
-function renderQuotas(quotas) {
-
-    quotas.forEach(quota => {
-        const quotaElement = createQuotaElement(quota.number);
-        quotasContainer.appendChild(quotaElement);
-
-        const inputQuota = document.getElementById(`inputQuota${quota.number}`);
-
-        inputQuota.addEventListener('input', (event) => {
-            quota.interestPercentage = event.target.value;
-        })
-
-    })
-}
-renderQuotas(quotas);
-
-
+    
 function addQuotas() {
     const newQuotas = [];
-
+    
     for (let quotaNumber = quotas.length + 1; quotaNumber <= quotas.length + 12; quotaNumber++) {
         newQuotas.push({ number: quotaNumber, interestPercentage: "" })
     }
