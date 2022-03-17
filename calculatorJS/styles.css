@@ -64,16 +64,16 @@ footer {
   overflow-y: scroll;
   height: 850px;
 }
-.scrollarea, #containerCards::-webkit-scrollbar {
+.scrollarea::-webkit-scrollbar {
   width: 6px!important;
   height: 6px!important;
 }
 
-.scrollarea, #containerCards::-webkit-scrollbar-track {
+.scrollarea::-webkit-scrollbar-track {
   background-color: transparent;
 }
 
-.scrollarea, #containerCards::-webkit-scrollbar-thumb {
+.scrollarea::-webkit-scrollbar-thumb {
   background-color: #0d6dfd93;
   border-radius: 10px;
 }
@@ -84,9 +84,26 @@ footer {
 
 
 
+
+
+
+
+#containerCards::-webkit-scrollbar {
+  width: 6px!important;
+  height: 6px!important;
+}
+
+#containerCards::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+#containerCards::-webkit-scrollbar-thumb {
+  background-color: #0d6dfd93;
+  border-radius: 10px;
+}
 .creditCard {
-  width: 130px;
-  height: 170px;
+  width: 125px;
+  height: 140px;
 }
 .creditCard:hover {
   box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
@@ -106,7 +123,7 @@ footer {
 }
 
 
-@media (min-width: 300px) {
+@media (min-width: 320px) {
   .list-group-item {
     flex-wrap: nowrap;
   }
