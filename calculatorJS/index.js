@@ -1,81 +1,89 @@
 const MIN_QUOTA_QUANTITY = 12;
 const MAX_QUOTA_QUANTITY = 48;
 
-const cardsContainer = document.getElementById('containerCards');
+const DEFAULT_DATA_CARDS = [
+    { quotas: [], title: "VISA", urlImage: 'img/tarjeta-visa.jpg' },
+    { quotas: [], title: "MasterCard", urlImage: 'img/Mastercard-logo.svg.png' },
+    { quotas: [], title: "Ahora12", urlImage: 'img/ahora-12-logo.png' },
+    { quotas: [], title: "Ahora18", urlImage: 'img/ahora-18-logo.png' },
+    { quotas: [], title: "CABAL", urlImage: 'img/cabal-logo.png' },
+    { quotas: [], title: "CABAL24", urlImage: 'img/cabal24.png' },
+    { quotas: [], title: "Maestro", urlImage: 'img/Maestro.png' },
+    { quotas: [], title: "Naranja", urlImage: 'img/NARANJANUEVA.png' },
+    { quotas: [], title: "Naranja VISA", urlImage: 'img/Naranja.png' },
+    { quotas: [], title: "American Express", urlImage: 'img/american_express.png' },
+    { quotas: [], title: "Nativa VISA", urlImage: 'img/Nativa.jpg' },
+    { quotas: [], title: "Nativa MasterCard", urlImage: 'img/NATIVAMASTER.jpg'},
+    { quotas: [], title: "Crédito Argentino", urlImage: 'img/credito-argentino.jpg' },
+    { quotas: [], title: "Consumax", urlImage: 'img/logo-consumax.png' },
+    { quotas: [], title: "VISA BERSA", urlImage: 'img/BERSA.jpg' },
+    { quotas: [], title: "Visa Electron", urlImage: 'img/VISAELECTRON.png' },
+    { quotas: [], title: "Sidecreer", urlImage: 'img/SIDECREER.png'},
+    { quotas: [], title: "Sidecreer CABAL", urlImage: 'img/SIDECREERCABAL.jpg' },
+];
+
+const cardsContainer = document.getElementById('cardsContainer');
 const quotasContainer = document.getElementById('quotasContainer');
 
+let dataCards = null;
 let selectedCard = "VISA";
-let dataCards = JSON.parse(localStorage.getItem('dataCards'));
+let newCardsCounter = null;
 
-function createQuotaElement(quotaNumber) {
-    const newQuotaDiv = document.createElement('div');
-    newQuotaDiv.className = 'list-group-item list-group-item-action py-3 d-flex align-items-center gap-2';
-    newQuotaDiv.innerHTML = `
-            <div class="interestInput input-group">
-                <input id="inputQuota${quotaNumber}" class="form-control" type="number" name="" title="Introduzca el valor del recargo"/>
-                <span class="input-group-text">%</span>
-            </div>
-            <strong class="flex-grow-1 ">${quotaNumber} CUOTA${quotaNumber == "1" ? "" : "S"} DE:</strong>
-            <h5 class="fw-bold mb-0">$<span id="quotaPrice${quotaNumber}"></span></h5>
-    `;
-    return newQuotaDiv;
+function initialize() {
+    dataCards = JSON.parse(localStorage.getItem('dataCards'))
+
+    // Si no existe dataCards en el Local Storage, asignarle el array por defecto.
+    if (!dataCards) {
+        dataCards = DEFAULT_DATA_CARDS;
+        insertEmptyQuotasInCards()
+    }
+
+    // Guardar en Local Storage el nuevo array para dataCards.
+    localStorage.setItem('dataCards', JSON.stringify(dataCards))
+
+    // Contiene el conteo necesario para agregar nuevas tarjetas (Ej. Nueva tarjeta 3, Nueva tarjeta 4, etc.).
+    // Si no se encuentra en el Local Storage, comienza en 1.
+    newCardsCounter = localStorage.getItem('newCardsCounter') || 1;
+
+    renderCards();
+    renderQuotas();
+    fillInputQuotas();
+    toggleQuotasVisibility();
+
+    // Agrega el listener para el cambio de tarjeta seleccionada.
+    cardsContainer.addEventListener('change', changeSelectedCard);
+
+    initializeTyped();
 }
 
-for (let quotaNumber = 1; quotaNumber <= MAX_QUOTA_QUANTITY; quotaNumber++) {
-    const quotaElement = createQuotaElement(quotaNumber);
-    quotasContainer.appendChild(quotaElement);
-    const inputQuota = document.getElementById(`inputQuota${quotaNumber}`);
-    
-    inputQuota.addEventListener('input', (event) => {
-        const card = dataCards.find(card => card.title == selectedCard);
-        card.quotas[quotaNumber - 1].interestPercentage = event.target.value;
-        localStorage.setItem('dataCards', JSON.stringify(dataCards))
-    })
-}
+initialize()
 
-if (!dataCards) {
-    dataCards = [
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/tarjeta-visa.jpg', title: "VISA" },
-        { quotas: [], quotasQuantity: 25, urlImage: 'img/Mastercard-logo.svg.png', title: "MasterCard" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/ahora-12-logo.png', title: "Ahora12" },
-        { quotas: [], quotasQuantity: 18, urlImage: 'img/ahora-18-logo.png', title: "Ahora18" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/cabal-logo.png', title: "CABAL" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/cabal24.png', title: "CABAL24" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/Maestro.png', title: "Maestro" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/NARANJANUEVA.png', title: "Naranja" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/Naranja.png', title: "Naranja VISA" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/american_express.png', title: "American Express" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/Nativa.jpg', title: "Nativa VISA" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/NATIVAMASTER.jpg', title: "Nativa MasterCard"},
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/credito-argentino.jpg', title: "Crédito Argentino" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/logo-consumax.png', title: "Consumax" },
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/BERSA.jpg', title: "VISA BERSA"},
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/VISAELECTRON.png', title: "Visa Electron"},
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/SIDECREER.png', title: "Sidecreer"},
-        { quotas: [], quotasQuantity: 12, urlImage: 'img/SIDECREERCABAL.jpg', title: "Sidecreer CABAL"},
-    ];
-
+function insertEmptyQuotasInCards() {
     dataCards.forEach(card => {
+        if (card.title == 'Ahora12') {
+            card.quotas.push({ number: 12, interestPercentage: "" });
+            return
+        }
+        if (card.title == 'Ahora18') {
+            card.quotas.push({ number: 18, interestPercentage: "" });
+            return
+        }
         for (let quotaNumber = 1; quotaNumber <= MIN_QUOTA_QUANTITY; quotaNumber++) {
             card.quotas.push({ number: quotaNumber, interestPercentage: "" });
         }
     });
-
-    localStorage.setItem('dataCards', JSON.stringify(dataCards))
 }
 
-fillInputQuotas();
-toggleQuotasVisibility();
-
+// Crea y devuelve un elemento para una tarjeta.
 function createCardElement(card) {
     const newQuotaDiv = document.createElement('div');
     newQuotaDiv.className = 'col';
     newQuotaDiv.innerHTML = `
-        <input id="${card.title}" class="d-none credit-card-radio" type="radio" name="creditCard" value="" ${card.title == "VISA" ? "checked" : ''} />
+        <input id="${card.title}" class="d-none credit-card-radio" type="radio" name="creditCard" ${card.title == "VISA" ? "checked" : ''} />
         <label for="${card.title}" class="col d-flex justify-content-center text-center pe-auto credit-card-label">
             <div class="creditCard d-flex flex-column text-decoration-none link-dark card align-items-center justify-content-start gap-3 px-2 py-3 border">
                 <div class="creditCardImg mx-2 border rounded">
-                    <img src="${card.urlImage}" class="card-img-top w-100 h-100 img-fluid" alt="...">
+                    <img src="${card.urlImage}" class="card-img-top w-100 h-100 img-fluid" alt="Logo de tarjetas de crédito">
                 </div>
                 <div class="pb-0 px-0">
                     <h5 class="card-title text-break mb-0">${card.title}</h5>
@@ -85,30 +93,89 @@ function createCardElement(card) {
     return newQuotaDiv;
 }
 
+// Agrega los elementos de las tarjetas al container de tarjetas.
 function renderCards() {
+    cardsContainer.innerHTML = '';
     dataCards.forEach(card => {
         const cardElement = createCardElement(card);
         cardsContainer.appendChild(cardElement);
     });
 };
 
-// function addCard() {
-//     const card = { urlImage: 'img/credit-card.svg', title: "Nueva tarjeta" };
-//     dataCards.push(card);
-//     renderCards();
-// };
+// Agrega una nueva tarjeta genérica de acuerdo al contador newCardsCounter (Ej. Nueva tarjeta 3, Nueva tarjeta 4, etc.).
+function addCard() {
+    // Estructura básica de un objeto para una tarjeta.
+    const card = { quotas: [], urlImage: 'img/credit-card.svg', title: `Nueva tarjeta ${newCardsCounter}` };
 
-renderCards();
+    // Una vez usado el contador, lo incrementa y lo guarda en el Local Storage.
+    newCardsCounter++;
+    localStorage.setItem('newCardsCounter', newCardsCounter);
+    
+    // Agrega los 12 objetos de las cuotas a la tarjeta.
+    for (let quotaNumber = 1; quotaNumber <= MIN_QUOTA_QUANTITY; quotaNumber++) {
+        card.quotas.push({ number: quotaNumber, interestPercentage: "" });
+    }
+
+    // Agrega el objeto de la tarjeta en dataCards y lo guarda en el Local Storage.
+    dataCards.push(card);
+    localStorage.setItem('dataCards', JSON.stringify(dataCards));
+
+    // Renderiza todas las tarjetas.
+    renderCards();
+};
+
+function changeSelectedCard(event) {
+    selectedCard = event.target.id;
+    fillInputQuotas();
+    toggleQuotasVisibility();
+    clearQuotas();
+    localStorage.setItem('dataCards', JSON.stringify(dataCards));
+}
+
+// Crea y devuelve un elemento para una cuota.
+function createQuotaElement(quotaNumber) {
+    const newQuotaDiv = document.createElement('div');
+    newQuotaDiv.className = 'list-group-item list-group-item-action py-3 d-flex align-items-center gap-2';
+    newQuotaDiv.innerHTML = `
+            <div class="interestInput input-group">
+                <input id="inputQuota${quotaNumber}" class="form-control inputQuota" type="number" name="" title="Introduzca el valor del recargo"/>
+                <span class="input-group-text">%</span>
+            </div>
+            <strong class="flex-grow-1 ">${quotaNumber} CUOTA${quotaNumber == "1" ? "" : "S"} DE:</strong>
+            <h5 class="fw-bold mb-0">$<span class="quotaPrice" id="quotaPrice${quotaNumber}"></span></h5>
+    `;
+    return newQuotaDiv;
+}
+
+// Agrega los elementos de las cuotas al container de cuotas.
+function renderQuotas() {
+    for (let quotaNumber = 1; quotaNumber <= MAX_QUOTA_QUANTITY; quotaNumber++) {
+        const quotaElement = createQuotaElement(quotaNumber);
+        quotasContainer.appendChild(quotaElement);
+    
+        // Una vez agregada la cuota, agrega un listener al input del porcentaje
+        // para guardar el número en dataCards y Local Storage.
+        const inputQuota = document.getElementById(`inputQuota${quotaNumber}`);
+        
+        inputQuota.addEventListener('input', (event) => {
+            const card = dataCards.find(card => card.title == selectedCard);
+            card.quotas.find(quota => quota.number == quotaNumber).interestPercentage = event.target.value;
+            localStorage.setItem('dataCards', JSON.stringify(dataCards))
+        })
+    }
+}
 
 function addQuotas() {
     const card = dataCards.find(card => card.title == selectedCard)
-    if (card.quotasQuantity >= MAX_QUOTA_QUANTITY) return;
-    card.quotasQuantity += 12;
-    for (let quotaNumber = card.quotasQuantity; quotaNumber <= card.quotasQuantity + 12; quotaNumber++) {
+    if (card.quotas.length >= MAX_QUOTA_QUANTITY) {
+        alert('No es posible agregar más de 48 cuotas');
+        return;
+    }
+    const currentQuotasQuantity = card.quotas.length;
+    for (let quotaNumber = currentQuotasQuantity; quotaNumber <= currentQuotasQuantity + 12; quotaNumber++) {
         card.quotas.push({ number: quotaNumber, interestPercentage: "" });
     }
     toggleQuotasVisibility();
-    quotasContainer.classList.add('scrollarea');
 }
 
 function fillInputQuotas() {
@@ -116,7 +183,8 @@ function fillInputQuotas() {
 
     card.quotas.forEach(quota => {
         const inputQuota = document.getElementById(`inputQuota${quota.number}`);
-        inputQuota.value = quota.interestPercentage
+        inputQuota.value = quota.interestPercentage;
+
     })
 }
 
@@ -126,19 +194,10 @@ function toggleQuotasVisibility() {
 
     quotaElements.forEach((quotaElement, index) => {
         const quotaNumber = index + 1;
-        const showQuota = quotaNumber > card.quotasQuantity;
-        quotaElement.classList.toggle('d-none', showQuota);
+        const showQuota = card.quotas.some(quota => quota.number == quotaNumber)
+        quotaElement.classList.toggle('d-none', !showQuota);
     });
 }
-
-function changeSelectedCard(event) {
-    selectedCard = event.target.id;
-    fillInputQuotas();
-    toggleQuotasVisibility();
-    localStorage.setItem('dataCards', JSON.stringify(dataCards));
-}
-
-cardsContainer.addEventListener('change', changeSelectedCard);
 
 function calculateAllQuotasPrice() {
     const articlePrice = document.getElementById("InputArticle");
@@ -179,27 +238,49 @@ function calculateQuotaPrice(quotaNumber, articlePriceValue) {
     }
 }
 
+function clearQuotas() {
+    const quotaPrices = Array.from(document.querySelectorAll('.quotaPrice')); 
+    const inputQuotas = Array.from(document.querySelectorAll('.inputQuota'));
 
+    quotaPrices.forEach(quotaPrice => {
+        quotaPrice.textContent = "0";
+    });
 
+    inputQuotas.forEach(inputQuota => {
+        inputQuota.classList.remove('border-danger');
+    });
+}
 
-// ---------------------- TYPED CONFIG ----------------------
-const typed = new Typed('.typed', {
-    strings: [
-        'CALCULADOR DE CUOTAS',
-        'FÁCIL, RÁPIDO Y SIMPLE',
-        'JUBILÁ TU CALCULADORA',
-        'NO LE GASTES LAS PILAS ;)',
-    ],
-    stringsElement: '#cadenas-texto',
-    typeSpeed: 50,
-    startDelay: 300,
-    backSpeed: 50,
-    smartBackspace: true,
-    shuffle: false, 
-    backDelay: 1600, 
-    loop: true, 
-    loopCount: false,
-    showCursor: true,
-    cursorChar: '.',
-    contentType: 'html',
-});
+// function resetApp() {
+//     let resetAppConfirmation = confirm('¿Desea resetear todos los valores ingresados?');
+//     if (resetAppConfirmation) {
+//         localStorage.clear();
+//         initialize()
+//         insertEmptyQuotasInCards()
+//         renderCards();
+//         renderQuotas();
+//     }  
+// }
+
+function initializeTyped() {
+    const typed = new Typed('.typed', {
+        strings: [
+            'CALCULADOR DE CUOTAS',
+            'FÁCIL, RÁPIDO Y SIMPLE',
+            'JUBILÁ TU CALCULADORA',
+            'NO LE GASTES LAS PILAS ;)',
+        ],
+        stringsElement: '#cadenas-texto',
+        typeSpeed: 50,
+        startDelay: 300,
+        backSpeed: 50,
+        smartBackspace: true,
+        shuffle: false, 
+        backDelay: 1600, 
+        loop: true, 
+        loopCount: false,
+        showCursor: true,
+        cursorChar: '.',
+        contentType: 'html',
+    });
+}
