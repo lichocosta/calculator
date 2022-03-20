@@ -167,10 +167,12 @@ function renderQuotas() {
 
 function addQuotas() {
     const card = dataCards.find(card => card.title == selectedCard)
+    //Límite de cuotas.
     if (card.quotas.length >= MAX_QUOTA_QUANTITY) {
         alert('No es posible agregar más de 48 cuotas');
         return;
     }
+    //Agrega de a 12 cuotas.
     const currentQuotasQuantity = card.quotas.length;
     for (let quotaNumber = currentQuotasQuantity; quotaNumber <= currentQuotasQuantity + 12; quotaNumber++) {
         card.quotas.push({ number: quotaNumber, interestPercentage: "" });
@@ -184,10 +186,10 @@ function fillInputQuotas() {
     card.quotas.forEach(quota => {
         const inputQuota = document.getElementById(`inputQuota${quota.number}`);
         inputQuota.value = quota.interestPercentage;
-
     })
 }
 
+//Quita display: none de las cuotas según la tarjeta seleccionada.
 function toggleQuotasVisibility() {
     const card = dataCards.find(card => card.title == selectedCard)
     const quotaElements = Array.from(quotasContainer.children);
@@ -216,6 +218,7 @@ function calculateAllQuotasPrice() {
     }
 }
 
+//Cálculo principal
 function calculateQuotaPrice(quotaNumber, articlePriceValue) {
     let inputQuota = document.getElementById(`inputQuota${quotaNumber}`);
     let quotaPrice = document.getElementById(`quotaPrice${quotaNumber}`);
@@ -251,24 +254,20 @@ function clearQuotas() {
     });
 }
 
-// function resetApp() {
-//     let resetAppConfirmation = confirm('¿Desea resetear todos los valores ingresados?');
-//     if (resetAppConfirmation) {
-//         localStorage.clear();
-//         initialize()
-//         insertEmptyQuotasInCards()
-//         renderCards();
-//         renderQuotas();
-//     }  
-// }
+function resetApp() {
+    let resetAppConfirmation = confirm('¿Desea resetear todos los valores ingresados?');
+    if (resetAppConfirmation) {
+        localStorage.clear();
+        window.location.reload()
+    }  
+}
 
 function initializeTyped() {
     const typed = new Typed('.typed', {
         strings: [
             'CALCULADOR DE CUOTAS',
             'FÁCIL, RÁPIDO Y SIMPLE',
-            'JUBILÁ TU CALCULADORA',
-            'NO LE GASTES LAS PILAS ;)',
+            'GUARDÁ TU CALCULADORA ;)',
         ],
         stringsElement: '#cadenas-texto',
         typeSpeed: 50,
