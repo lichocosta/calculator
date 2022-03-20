@@ -14,6 +14,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
   </head>
+  <!-- 
+      (\__/) 
+  ⠀   (•ㅅ•)        
+　_＿ノヽ ノ＼＿_     
+ /　`/ ⌒Ｙ⌒ Ｙ　ヽ     
+( 　(三ヽ人　 /　  |     
+|　ﾉ⌒＼ ￣￣ヽ　 ノ    Daddy sees you're
+  ヽ＿＿＞､＿＿_／      inspecting this website...
+　  ) ( 王 ) (   (\__/) 
+　 　/ﾐ`ー―彡\   (•ㅅ•)  
+-->
 
   <body>
     <header class="d-flex flex-row justify-content-between justify-content-sm-between align-items-center">
@@ -53,14 +64,12 @@
     <hr class="mt-0">
 
     <section class="row col-12 col-sm-8 col-md-6 col-lg-5 mx-auto align-items-center justify-content-center">
-
       <div class="input-group InputArticleContainer">
         <span class="input-group-text">$</span>
         <input id="InputArticle" class="form-control w-auto" type="number" title="Introduzca el valor del articulo" placeholder="Ingresá el valor del artículo"> 
         <button onclick="calculateAllQuotasPrice()" title="Calcular cuotas con ésta tarjeta" class="btn btn-primary btnCalcular">Calcular!</button>
       </div>
 
-      <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -86,12 +95,12 @@
                   ¿Qué cuenta matemática se realiza para llegar al resultado?<br>
                   <em>Precio del artículo <span class="fw-bold">+</span> recargo de la tarjeta de crédito <span class="fw-bold">÷</span> cantidad de cuotas.</em>
                 </p>
-
                 <p class="fs-5 fw-semibold">
                   Se trata de una app que puede llevarse a cabo en una simple hoja de cálculo sin inconvenientes, por lo tanto queda a su dispoción una versión para descargar:
                   <em>
-                    <a href="">Versión Excel</a>
-                  </em>
+                    <a target="_blank" href="https://docs.google.com/spreadsheets/d/1LwwFMg796nNwzBKcqVbU35W5px6PzCohxs_Jk4T2L_o/edit?usp=sharing">Versión Excel</a>
+                  </em> <br>
+                  Una vez que ingrese al link, dirigirse a: <br> <em>Archivo > Descargar</em>, y podrá elegir el formato deseado para descargar y editar.
                 </p>
               </div>
             </div>
@@ -111,7 +120,6 @@
           <i class="bi bi-plus-lg me-2"></i>
           Crear nueva tarjeta
         </button>
-        
       </section>
 
       <section class="col-12 col-md-5 col-lg-4 px-0">

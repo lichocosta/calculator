@@ -232,19 +232,20 @@ function calculateQuotaPrice(quotaNumber, articlePriceValue) {
         quotaPrice.innerHTML = "0";
     } else {
         inputQuota.classList.remove('border-danger');
-
+        //Cálculo de porcentaje %.
         const productPriceInterestPercentage = parseFloat(quotaInterestPercentage) / 100 * parseFloat(articlePriceValue);
-        
+        //Suma.
         const productPricePlusInterest = productPriceInterestPercentage + parseFloat(articlePriceValue);
-        
+        //División por cantidad de cuotas.
         quotaPrice.innerHTML = Math.round(productPricePlusInterest / quotaNumber);
     }
 }
 
+//Resetea las cuotas a 0 y border-danger al selecionar otra tarjeta.
 function clearQuotas() {
     const quotaPrices = Array.from(document.querySelectorAll('.quotaPrice')); 
     const inputQuotas = Array.from(document.querySelectorAll('.inputQuota'));
-
+    
     quotaPrices.forEach(quotaPrice => {
         quotaPrice.textContent = "0";
     });
@@ -254,6 +255,7 @@ function clearQuotas() {
     });
 }
 
+//Resetea la app por completo, limpia Local Storage y recarga la página.
 function resetApp() {
     let resetAppConfirmation = confirm('¿Desea resetear todos los valores ingresados?');
     if (resetAppConfirmation) {
