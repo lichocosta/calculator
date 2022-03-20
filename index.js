@@ -257,7 +257,7 @@ function clearQuotas() {
 
 //Resetea la app por completo, limpia Local Storage y recarga la página.
 function resetApp() {
-    let resetAppConfirmation = confirm('¿Desea resetear todos los valores ingresados?');
+    let resetAppConfirmation = confirm('¿Está seguro que desea reiniciar la aplicación? Se perderán todos los datos ingresados.');
     if (resetAppConfirmation) {
         localStorage.clear();
         window.location.reload()
