@@ -24,6 +24,7 @@ const DEFAULT_DATA_CARDS = [
 
 const cardsContainer = document.getElementById('cardsContainer');
 const quotasContainer = document.getElementById('quotasContainer');
+const addQuotasBtn = document.getElementById('addQuotasBtn');
 
 let dataCards = null;
 let selectedCard = "VISA";
@@ -130,6 +131,15 @@ function changeSelectedCard(event) {
     toggleQuotasVisibility();
     clearQuotas();
     localStorage.setItem('dataCards', JSON.stringify(dataCards));
+
+    if (selectedCard == 'Ahora12' || selectedCard == 'Ahora18') {
+        addQuotasBtn.classList.add('disabled');
+        addQuotasBtn.disabled = true;
+    } else {
+        addQuotasBtn.classList.remove('disabled');
+        addQuotasBtn.disabled = false;
+    }
+    
 }
 
 // Crea y devuelve un elemento para una cuota.
@@ -201,6 +211,7 @@ function toggleQuotasVisibility() {
     });
 }
 
+//Calcula todos los valores
 function calculateAllQuotasPrice() {
     const articlePrice = document.getElementById("InputArticle");
     const articlePriceValue = articlePrice.value;
@@ -217,6 +228,15 @@ function calculateAllQuotasPrice() {
         articlePrice.classList.remove('border-danger');
     }
 }
+
+//Calcula todos los valores con "Enter"
+const articlePrice = document.getElementById("InputArticle");
+articlePrice.addEventListener("keyup", function(event) {
+  if (event.key === "Enter") {
+   event.preventDefault();
+   calculateAllQuotasPrice();
+  }
+});
 
 //Cálculo principal
 function calculateQuotaPrice(quotaNumber, articlePriceValue) {
@@ -237,7 +257,9 @@ function calculateQuotaPrice(quotaNumber, articlePriceValue) {
         //Suma.
         const productPricePlusInterest = productPriceInterestPercentage + parseFloat(articlePriceValue);
         //División por cantidad de cuotas.
-        quotaPrice.innerHTML = Math.round(productPricePlusInterest / quotaNumber);
+        const resultDivisionQuotas = productPricePlusInterest / quotaNumber;
+        //Resultado con dos decimales.
+        quotaPrice.innerHTML = resultDivisionQuotas.toFixed(2);
     }
 }
 
